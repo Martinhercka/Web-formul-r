@@ -90,8 +90,30 @@
             data();
 
             function printTable(){
-                if(persons.length>0){
-                    var divTable=$('.table');
+                 var arr= new Array();
+                  var divTable=$('.table');
+                   divTable.empty();
+                    var selectedGender = getSelectedGender();
+                    var checkedAge=isCheckedAge();
+
+
+
+            persons.forEach(function (obj) {
+                if(selectedGender == 'Male' && obj.gender == 'male'){
+                    arr.push(obj);
+                }
+                   if(selectedGender == 'Female' && obj.gender == 'female'){
+                    arr.push(obj);
+                }
+                   if(selectedGender == 'Both'){
+                    arr.push(obj);
+                }
+            })
+                
+
+                if(arr.length>0){
+                   
+                    
                     var table=$("<table/>");
                     var line=$("<tr/>");
                     var col1=$("<th/>");
@@ -105,6 +127,7 @@
                     var col5=$("<th/>");
                     $(col5).append('Delete');
                     line.append(col1);
+                    line.append(col2);
                     line.append(col3);
                     line.append(col3);
                     line.append(col4);
@@ -112,13 +135,56 @@
                     table.append(line);
                     divTable.append(table);
                 }
+           
+
+             arr.forEach(function(obj){
+        var line=$("<tr/>");
+        var col1=$("<td/>");
+        $(col1).append(obj.fname);
+        var col2=$("<td/>");
+        $(col2).append(obj.lname);
+        var col3=$("<td/>");
+        $(col3).append(obj.date);
+        var col4=$("<td/>");
+        $(col4).append(obj.gender);
+        line.append(col1);
+        line.append(col2);
+        line.append(col3);
+        line.append(col4);
+        table.append(line);
+     });
+
+
+
+
+
             }
         }
         error = false;
+         function getSelectedGender(){
+      var value = $("#selectGender").val();
+      return value;
+   }
+
+   $("#selectGender").change(function(event) {
+     
+     printTable();
+   });
+
+  function isCheckedAge(){
+     return $("#showAge").is(':checked');
+   }
+
+   $("#showAge").change(function(event){
+     printTable();
+   });
+
 
     });
 
-    var wdth = $(".getSizeFromInput").css("width");
-    $(".setSize").css({"width" : wdth});
+  
+
+
+  
 
 })(jQuery);
